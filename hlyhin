@@ -1,0 +1,226 @@
+from random import *
+from time import *
+#GLOBALS
+
+
+
+def diceCodes(choice):
+    if choice == 1:
+        print(" -----\n|     |\n|  *  |\n|     |\n -----")
+    elif choice == 2:
+        print(" -----\n| *   |\n|     |\n|   * |\n -----")
+    elif choice == 3:
+        print(" -----\n| *   |\n|  *  |\n|   * |\n -----")
+    elif choice == 4:
+        print(" -----\n| * * |\n|     |\n| * * |\n -----")
+    elif choice == 5:
+        print(" -----\n| * * |\n|  *  |\n| * * |\n -----")
+    elif choice == 6:
+        print(" -----\n| * * |\n| * * |\n| * * |\n -----")
+
+def gameDecision():
+    ifWannaPlay = True;
+    while ifWannaPlay:
+        print("                              Do you wanna play (yes or no) ")
+        yoAnswer = input(" >> ")
+        yoAnswer_lower = yoAnswer.lower()
+        if(yoAnswer_lower == "yes"):
+            print("                                   Nice, let's start!")
+            ifWannaPlay = False
+        elif(yoAnswer_lower == "no"):
+            print("                                   Well, ok, goodbye")
+            ifWannaPlay = False
+        else:
+            print("""                             I cant understand tho, try again
+            """)
+    return ifWannaPlay
+
+wannaPlay = gameDecision()
+
+def asciiCodes(codeNum):
+    match codeNum:
+        case 1:
+            print(""" """)
+        case 2:
+            print(""" """)
+        case 3:
+            print(""" """)
+        case 4: 
+            print(""" 
+                        ░░░░            
+                      ░░              
+                    ░░                
+                    ░░    ░░▓▓        
+                    ░░  ▓▓██▒▒▓▓      
+                    ░░  ████████      
+                      ░░▒▒████      ░░
+                      ██░░          ░░
+                  ░░██▒▒  ░░░░░░░░    
+                  ██▓▓                
+              ░░██▒▒                  
+            ░░██░░                    
+          ░░██▒▒                      
+        ░░██░░                        
+      ░░██▒▒                          
+    ░░██░░                            
+░░░░██▒▒                              
+░░██░░                                
+░░▒▒░░                                
+""")
+        case 5:
+            print("""
+                                        ████
+                                      ██  ██
+                                    ██    ██
+                                  ██  ██  ██
+                                ██  ████▒▒██
+                              ██  ██▓▓██▒▒██
+                            ██  ██▓▓▓▓██▒▒██
+                            ██  ▓▓▓▓▓▓██▒▒██
+                            ██  ▓▓▓▓██▒▒██  
+                            ██▓▓▓▓██▒▒██    
+                          ██  ▓▓██▒▒██      
+                        ██  ██▓▓▒▒██        
+                      ██▒▒██▓▓  ██          
+                    ██▒▒██▓▓  ██            
+      ████        ██▒▒██▓▓  ██              
+    ██  ██      ██████▓▓  ██                
+  ██  ██      ██  ██▓▓  ██                  
+  ██░░  ██████  ░░██▓▓  ██                  
+    ██░░▒▒▒▒▒▒░░██████▒▒██                  
+    ████▒▒    ██████▒▒██                    
+      ██    ██  ██▒▒██                      
+      ██░░████  ████                        
+    ██▒▒    ▒▒▒▒  ██  ████                  
+    ██░░▒▒██████▒▒  ██  ██                  
+  ██  ▒▒██    ████░░  ██                    
+██  ▒▒██          ████                      
+██████                                      
+
+""")
+        case 6:
+            print("""
+                      ████                  
+                    ░░  ██                  
+                  ░░    ████                
+                ░░      ██████              
+              ░░          ██████            
+              ░░            ████            
+            ░░                ████          
+            ░░                  ████        
+  ▒▒▒▒      ░░                  ████  ▒▒▒▒    
+   ▒▒▒▒  ░░                      ▒▒██  ▒▒▒▒  
+      ▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+   ▒▒▒▒  ░░                      ▒▒██  ▒▒▒▒  
+  ▒▒▒▒      ░░                  ████  ▒▒▒▒    
+            ░░                  ████        
+            ░░                ████          
+              ░░            ████            
+              ░░          ██████            
+                ░░      ██████              
+                  ░░    ████                
+                    ░░  ██                  
+                      ████                  
+""")
+        case 7: 
+            print(""" """)
+for i in range(5):
+    print(" ") 
+    
+#prints the code with sum kinda time, like sans talks    
+def textPrint(theText):
+    for i in range (len(theText)):
+       print(theText[i], end="", flush=True)
+       sleep(0.1)
+    print("")
+
+def player_throw_dice(player_number):
+    throwADice = f"{player_number} Player, throw a dice, type 1 to throw"
+    textPrint(throwADice)
+    threwDice = 0
+    while threwDice != 1:
+        threwDice = int(input(" >> "))
+        if threwDice != 1:
+            print("Try again")
+        else:
+            dice_result = randint(1,6)
+            print(f"Player {player_number} threw a dice and got: {dice_result}!")
+            diceCodes(dice_result)
+            return dice_result
+
+
+def theGame():
+   step = 0
+   pl1Hp = 50
+   pl2Hp = 50
+   pl1Att = (1,2,3)
+   pl2Att = (1,2,3)
+   classSelectP1 = "Player 1, select your class. 1 for Archer, 2 for Swordsman, 3 for Magician"
+   classSelectP2 = "Player 2, select your class. 1 for Archer, 2 for Swordsman, 3 for Magician"
+   hiStranger = "Welcome to ArchSwordMagi!"
+   classes = ["Archer","Swordsman","Magician"]
+
+   classSelection = 0
+   textPrint(hiStranger)
+   #1st player class selection and output
+   while(classSelection < 1 or classSelection > 3):
+    textPrint(classSelectP1)
+    classSelection = int(input(" >> "))
+    if (classSelection <=3 or classSelection>=1):
+         p1Class = classSelection
+    match classSelection:
+        case 1:
+          sleep(0.3)
+          print("Player 1, your class is: ",classes[classSelection-1])
+          sleep(0.3)
+          asciiCodes(6)
+        case 2:
+          sleep(0.3)
+          print("Player 1, your class is: ",classes[classSelection-1])
+          sleep(0.3)
+          asciiCodes(5)
+        case 3:
+          sleep(0.3)
+          print("Player 1, your class is: ",classes[classSelection-1])
+          sleep(0.3)
+          asciiCodes(4)
+ #second player class selection and output       
+    classSelection = 0      
+    while(classSelection < 1 or classSelection > 3):
+        textPrint(classSelectP2)
+        classSelection = int(input(" >> "))
+        if (classSelection <=3 or classSelection>=1):
+             p2Class = classSelection
+        match classSelection:
+            case 1:
+              sleep(0.3)
+              print("Player 2, your class is: ",classes[classSelection-1])
+              sleep(0.3)
+              asciiCodes(6)
+            case 2:
+              sleep(0.3)
+              print("Player 2, your class is: ",classes[classSelection-1])
+              sleep(0.3)
+              asciiCodes(5)
+            case 3:
+              sleep(0.3)
+              print("Player 2, your class is: ",classes[classSelection-1])
+              sleep(0.3)
+              asciiCodes(4)
+    while(player1Threw!=player2Threw):
+        player1Threw = player_throw_dice(1)
+        player2Threw = player_throw_dice(2)
+    
+    if(player1Threw>player2Threw):
+        stPlayer = "1st Player plays 1st"
+    if(player2Threw>player1Threw):
+        ndPlayer = "2nd Player plays 1st"
+    
+        
+        
+        
+        
+        
+        
+if wannaPlay == False:
+    theGame()
