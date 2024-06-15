@@ -21,9 +21,12 @@ def player_throw_dice(player_number):
     print(f"Player {player_number}, throw a dice, type 1 to throw")
     threwDice = 0
     while threwDice != 1:
-        threwDice = int(input(" >> "))
-        if threwDice != 1:
-            print("Try again")
+        try:
+            threwDice = int(input(" >> "))
+            if threwDice != 1:
+                print("Please type '1' to throw the dice.")
+        except ValueError:
+            print("Invalid input. Please type '1' to throw the dice.")
     dice_result = randint(1, 6)
     print(f"Player {player_number} threw a dice and got: {dice_result}!")
     diceCodes(dice_result)
@@ -39,23 +42,45 @@ def gameIntroduction():
             print(f"{idx + 1}. {class_name}")
         class_selection = 0
         while class_selection < 1 or class_selection > len(classes):
-            class_selection = int(input(" >> "))
-            if class_selection < 1 or class_selection > len(classes):
-                print("Invalid choice. Please select again.")
+            try:
+                class_selection = int(input(" >> "))
+                if class_selection < 1 or class_selection > len(classes):
+                    print("Invalid choice. Please select again.")
+            except ValueError:
+                print("Invalid input. Please enter a number.")
         return class_selection
 
     # Select classes for both players
     player1_class = select_class(1)
     player2_class = select_class(2)
 
+    # Assign HP and damage based on class selection
+    if player1_class == 1:  # Archer
+        player1_hp = 80
+        player1_damage = 50
+    elif player1_class == 2:  # Swordsman
+        player1_hp = 150
+        player1_damage = 25
+    elif player1_class == 3:  # Magician
+        player1_hp = 120
+        player1_damage = 35
+
+    if player2_class == 1:  # Archer
+        player2_hp = 80
+        player2_damage = 50
+    elif player2_class == 2:  # Swordsman
+        player2_hp = 150
+        player2_damage = 25
+    elif player2_class == 3:  # Magician
+        player2_hp = 120
+        player2_damage = 35
+
     print(f"Player 1, your class is: {classes[player1_class - 1]}")
     print(f"Player 2, your class is: {classes[player2_class - 1]}")
 
-    return player1_class, player2_class
-
-# Function to simulate combat round
-def combat_round(attacker, defender, attacker_damage):
-    def combat_round(attacker_class, attacker, defender, dice_result):
+    return player1_class, player1_hp, player1_damage, player2_class, player2_hp, player2_damage
+# Update combat_round to use class-specific damage values
+def combat_round(attacker_class, attacker, defender, dice_result):
     if attacker_class == "Archer":
         if dice_result >= 3:
             damage_dealt = 50 + int(50 * (dice_result - 3) / 10)  # Increase damage based on dice result
@@ -72,14 +97,31 @@ def combat_round(attacker, defender, attacker_damage):
     print(f"Player {defender} loses {damage_dealt} HP!")
     return damage_dealt
 
-# Main game function
+# Function to determine which player plays first based on dice throw
+def determine_first_player():
+    print("Rolling dice to determine who plays first...")
+    player1_dice = player_throw_dice(1)
+    player2_dice = player_throw_dice(2)
+
+    print(f"Player 1 rolls: {player1_dice}")
+    print(f"Player 2 rolls: {player2_dice}")
+
+    if player1_dice > player2_dice:
+        print("Player 1 plays first!")
+        return 1
+    elif player2_dice > player1_dice:
+        print("Player 2 plays first!")
+        return 2
+    else:
+        print("It's a tie! Rolling again...")
+        return determine_first_player()
+
+# Modify the play_game function to use combat_round with class-specific HP and damage
 def play_game():
-    player1_hp = 100  # Example starting HP
-    player2_hp = 100  # Example starting HP
+    player1_class, player1_hp, player1_damage, player2_class, player2_hp, player2_damage = gameIntroduction()
 
-    player1_class, player2_class = gameIntroduction()
-
-    current_player = 1
+    # Determine first player
+    current_player = determine_first_player()
 
     while player1_hp > 0 and player2_hp > 0:
         sleep(1)
@@ -113,7 +155,6 @@ def play_game():
         print("Player 2 wins!")
     else:
         print("Player 1 wins!")
-
 
 # Start the game
 play_game()
