@@ -1,0 +1,95 @@
+from random import randint
+from time import sleep
+
+# Global variables
+classes = ["Archer", "Swordsman", "Magician"]
+
+# Function to display ASCII dice representation
+def diceCodes(choice):
+    dice_art = [
+        " -----\n|     |\n|  *  |\n|     |\n -----",
+        " -----\n| *   |\n|     |\n|   * |\n -----",
+        " -----\n| *   |\n|  *  |\n|   * |\n -----",
+        " -----\n| * * |\n|     |\n| * * |\n -----",
+        " -----\n| * * |\n|  *  |\n| * * |\n -----",
+        " -----\n| * * |\n| * * |\n| * * |\n -----"
+    ]
+    print(dice_art[choice - 1])
+
+# Function to get player input for dice throw
+def player_throw_dice(player_number):
+    print(f"Player {player_number}, throw a dice, type 1 to throw")
+    threwDice = 0
+    while threwDice != 1:
+        threwDice = int(input(" >> "))
+        if threwDice != 1:
+            print("Try again")
+    dice_result = randint(1, 6)
+    print(f"Player {player_number} threw a dice and got: {dice_result}!")
+    diceCodes(dice_result)
+    return dice_result
+
+# Function to display game introduction and handle class selection
+def gameIntroduction():
+    print("Welcome to ArchSwordMagi!")
+
+    def select_class(player_number):
+        print(f"Player {player_number}, select your class:")
+        for idx, class_name in enumerate(classes):
+            print(f"{idx + 1}. {class_name}")
+        class_selection = 0
+        while class_selection < 1 or class_selection > len(classes):
+            class_selection = int(input(" >> "))
+            if class_selection < 1 or class_selection > len(classes):
+                print("Invalid choice. Please select again.")
+        return class_selection
+
+    # Select classes for both players
+    player1_class = select_class(1)
+    player2_class = select_class(2)
+
+    print(f"Player 1, your class is: {classes[player1_class - 1]}")
+    print(f"Player 2, your class is: {classes[player2_class - 1]}")
+
+    return player1_class, player2_class
+
+# Function to simulate combat round
+def combat_round(attacker, defender, attacker_damage):
+    print(f"Player {attacker} attacks Player {defender}!")
+    print(f"Player {defender} loses {attacker_damage} HP!")
+    return attacker_damage
+
+# Main game function
+def play_game():
+    player1_hp = 100  # Example starting HP
+    player2_hp = 100  # Example starting HP
+
+    player1_class, player2_class = gameIntroduction()
+
+    current_player = 1
+
+    while player1_hp > 0 and player2_hp > 0:
+        sleep(1)
+        print(f"\nCurrent HP - Player 1: {player1_hp} | Player 2: {player2_hp}")
+
+        if current_player == 1:
+            input(f"Player {current_player}, it's your turn (press Enter to continue)")
+            dice_result = player_throw_dice(current_player)
+            damage_dealt = combat_round(current_player, 2, dice_result * 10)
+            player2_hp -= damage_dealt
+            current_player = 2
+        else:
+            input(f"Player {current_player}, it's your turn (press Enter to continue)")
+            dice_result = player_throw_dice(current_player)
+            damage_dealt = combat_round(current_player, 1, dice_result * 10)
+            player1_hp -= damage_dealt
+            current_player = 1
+
+    print("\nGame Over!")
+    if player1_hp <= 0:
+        print("Player 2 wins!")
+    else:
+        print("Player 1 wins!")
+
+# Start the game
+play_game()
