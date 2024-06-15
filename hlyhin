@@ -150,6 +150,8 @@ def player_throw_dice(player_number):
 
 
 def theGame():
+   player1Threw = 0
+   player2Threw = 0
    step = 0
    pl1Hp = 50
    pl2Hp = 50
@@ -207,14 +209,18 @@ def theGame():
               print("Player 2, your class is: ",classes[classSelection-1])
               sleep(0.3)
               asciiCodes(4)
-    while(player1Threw!=player2Threw):
+    while(player1Threw==player2Threw):
         player1Threw = player_throw_dice(1)
         player2Threw = player_throw_dice(2)
+        if(player1Threw == player2Threw):
+            print("You got a tie! Throw again!")
     
     if(player1Threw>player2Threw):
         stPlayer = "1st Player plays 1st"
+        textPrint(stPlayer)
     if(player2Threw>player1Threw):
         ndPlayer = "2nd Player plays 1st"
+        textPrint(ndPlayer)
     
         
         
