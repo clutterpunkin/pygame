@@ -55,9 +55,22 @@ def gameIntroduction():
 
 # Function to simulate combat round
 def combat_round(attacker, defender, attacker_damage):
-    print(f"Player {attacker} attacks Player {defender}!")
-    print(f"Player {defender} loses {attacker_damage} HP!")
-    return attacker_damage
+    def combat_round(attacker_class, attacker, defender, dice_result):
+    if attacker_class == "Archer":
+        if dice_result >= 3:
+            damage_dealt = 50 + int(50 * (dice_result - 3) / 10)  # Increase damage based on dice result
+        else:
+            damage_dealt = 50 - int(25 * (3 - dice_result) / 3)   # Decrease damage for lower dice result
+        print(f"Player {attacker} uses Arrow and deals {damage_dealt} damage!")
+    elif attacker_class == "Swordsman":
+        damage_dealt = 25 + dice_result * 10
+        print(f"Player {attacker} uses Cut and deals {damage_dealt} damage!")
+    elif attacker_class == "Magician":
+        damage_dealt = 35 + dice_result * 10
+        print(f"Player {attacker} uses Fireball and deals {damage_dealt} damage!")
+
+    print(f"Player {defender} loses {damage_dealt} HP!")
+    return damage_dealt
 
 # Main game function
 def play_game():
@@ -75,13 +88,23 @@ def play_game():
         if current_player == 1:
             input(f"Player {current_player}, it's your turn (press Enter to continue)")
             dice_result = player_throw_dice(current_player)
-            damage_dealt = combat_round(current_player, 2, dice_result * 10)
+            if player1_class == 1:
+                damage_dealt = combat_round("Archer", current_player, 2, dice_result)
+            elif player1_class == 2:
+                damage_dealt = combat_round("Swordsman", current_player, 2, dice_result)
+            elif player1_class == 3:
+                damage_dealt = combat_round("Magician", current_player, 2, dice_result)
             player2_hp -= damage_dealt
             current_player = 2
         else:
             input(f"Player {current_player}, it's your turn (press Enter to continue)")
             dice_result = player_throw_dice(current_player)
-            damage_dealt = combat_round(current_player, 1, dice_result * 10)
+            if player2_class == 1:
+                damage_dealt = combat_round("Archer", current_player, 1, dice_result)
+            elif player2_class == 2:
+                damage_dealt = combat_round("Swordsman", current_player, 1, dice_result)
+            elif player2_class == 3:
+                damage_dealt = combat_round("Magician", current_player, 1, dice_result)
             player1_hp -= damage_dealt
             current_player = 1
 
@@ -90,6 +113,7 @@ def play_game():
         print("Player 2 wins!")
     else:
         print("Player 1 wins!")
+
 
 # Start the game
 play_game()
